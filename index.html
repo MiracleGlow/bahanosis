@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komponen Header Responsif</title>
+    
+    <!-- Link ke File CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Fonts (Penting untuk Estetika) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Boxicons (Untuk Ikon) -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+</head>
+<body>
+
+    <!-- === KODE HEADER DIMULAI DI SINI === -->
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon-wrapper">
+                    <div class="logo-icon"></div>
+                </div>
+                <div class="logo-text">
+                    <strong>OSIS SMK BATIK PERBAIK</strong>
+                    <span>OFFICIAL WEBSITE</span>
+                </div>
+            </a>
+            
+            <nav class="main-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#" class="nav-link active">Home</a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            About
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Sejarah</a></li>
+                            <li><a href="#">Logo-OSIS</a></li>
+                            <li><a href="#">Visi-Misi</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            Struktur
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Inti OSIS</a></li>
+                            <li><a href="#">Bidang 1</a></li>
+                            <li><a href="#">Bidang 2</a></li>
+                            <li><a href="#">Bidang 3</a></li>
+                            <li><a href="#">Bidang 4</a></li>
+                            <li><a href="#">Bidang 5</a></li>
+                        </ul>
+                    </li>
+
+                    
+                    <li class="nav-item"><a href="#" class="nav-link">Program & Event</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            Jurnalistik 
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">News & Events</a></li>
+                            <li><a href="#">Gallery Foto</a></li>
+                            <li><a href="#">Video Dokumentasi</a></li>
+                            <li><a href="#">Karya Siswa</a></li>
+                            <li><a href="mading.html">Majalah Dinding Virtual</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <box-icon name='menu' class="icon-menu"></box-icon>
+                <box-icon name='x' class="icon-close"></box-icon>
+            </button>
+        </div>
+    </header>
+    <!-- === KODE HEADER SELESAI DI SINI === -->
+
+    <!-- Konten halaman dummy untuk demo scrolling -->
+    <main style="padding: 2rem 1rem; height: 200vh; background-color: #f1f1f1;">
+        <h1>Konten Halaman</h1>
+        <p>Scroll ke bawah untuk melihat efek header 'sticky'.</p>
+    </main>
+    
+    <!-- Link ke File JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

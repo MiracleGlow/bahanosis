@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <title>Flipbook PDF OSIS</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/turn.js@4/turn.min.js"></script>
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <style>
+    body { display:flex; justify-content:center; align-items:center; height:100vh; margin:0; background:#eaeaea; }
+    #flipbook { width: 800px; height: 500px; }
+    .page {
+      width:400px; height:500px;   /* fix ukuran halaman */
+      background:white;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    }
+    .page canvas {
+      max-width:95%;
+      max-height:95%;
+    }
+  </style>
+</head>
+<body>
+  <div id="flipbook"></div>
+
+<script>
+const { pdfjsLib } = window;
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const PDF_URL = "test.pdf"; // ganti dengan path PDF kamu
+const SCALE = 1.2; // ubah sesuai resolusi
+
+async function loadPDF() {
+  const pdf = await pdfjsLib.getDocument(PDF_URL).promise;
+  const flip = document.getElementById("flipbook");
+
+  for (let i=1; i<=pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const viewport = page.getViewport({ scale: SCALE });
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+    await page.render({ canvasContext: ctx, viewport }).promise;
+
+    // buat div halaman fixed size
+    const pageDiv = document.createElement("div");
+    pageDiv.className = "page";
+    pageDiv.appendChild(canvas);
+    flip.appendChild(pageDiv);
+  }
+
+  // aktifkan turn.js dengan ukuran tetap
+  $("#flipbook").turn({
+    width: 800,   // 2 × 400px (dua halaman)
+    height: 500,
+    autoCenter: true,
+    display: "double"  // pakai mode buku kiri–kanan
+  });
+}
+
+loadPDF();
+</script>
+</body>
+</html>

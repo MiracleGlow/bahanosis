@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Artikel - Pentas Seni Tahunan Sukses Digelar</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    <style>
+        /* --- CSS Variables and General Setup (Inherited) --- */
+        :root {
+            --primary-color: #0A2540;
+            --secondary-color: #F8F9FA;
+            --accent-color: #007BFF;
+            --text-color: #343A40;
+            --text-light: #6C757D;
+            --border-color: #DEE2E6;
+            --white-color: #FFFFFF;
+            --gold-color: #ffc107;
+            --header-font: 'Poppins', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --cat-liputan: #DC3545;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--body-font);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--white-color);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s ease-in-out; }
+        a:hover { color: var(--accent-color); }
+        h1, h2, h3, h4 { font-family: var(--header-font); font-weight: 700; line-height: 1.3; }
+
+        /* --- Article Page Layout --- */
+        .article-layout {
+            padding: 4rem 0;
+            display: grid;
+            grid-template-columns: 2.5fr 1fr;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        .article-main {
+            width: 100%;
+        }
+        
+        /* --- Article Header --- */
+        .article-header {
+            margin-bottom: 2rem;
+        }
+        .article-category {
+            display: inline-block;
+            padding: 0.3rem 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 20px;
+            color: var(--white-color);
+            text-transform: uppercase;
+            background-color: var(--cat-liputan);
+            margin-bottom: 1rem;
+        }
+        .article-title {
+            font-size: 2.75rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .meta-item box-icon { fill: currentColor; }
+
+        /* --- Article Content --- */
+        .article-image {
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .article-image img { width: 100%; }
+        .article-image figcaption {
+            padding: 0.75rem 0;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            background-color: var(--secondary-color);
+        }
+
+        .article-body {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+        .article-body p { margin-bottom: 1.5rem; }
+        .article-body h3 {
+            font-size: 1.75rem;
+            margin: 2.5rem 0 1rem;
+            color: var(--primary-color);
+        }
+        .article-body blockquote {
+            margin: 2rem 0;
+            padding-left: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--text-light);
+        }
+
+        /* --- Comment Section --- */
+        .comment-section {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        .section-title {
+            font-size: 1.75rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        .comment-form {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            font-family: var(--body-font);
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .submit-btn {
+            justify-self: start;
+            padding: 0.75rem 1.75rem;
+            font-family: var(--header-font);
+            font-size: 1rem;
+            font-weight: 600;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .submit-btn:hover { background-color: var(--accent-color); }
+        
+        .comment-list .comment-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .comment-list .comment-item:last-child { border-bottom: none; }
+        .comment-avatar img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+        }
+        .comment-content .comment-author {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        .comment-content .comment-date {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-left: 0.5rem;
+        }
+        .comment-content .comment-text {
+            margin-top: 0.25rem;
+            line-height: 1.6;
+        }
+
+        /* --- Sidebar --- */
+        .article-sidebar {
+            position: sticky;
+            top: 2rem;
+        }
+        .sidebar-widget {
+            background-color: var(--secondary-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        .widget-title {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent-color);
+            font-weight: 600;
+        }
+        .related-posts a {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+        .related-posts a:hover { background-color: #e9ecef; }
+        .related-posts img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .related-posts h4 {
+            font-family: var(--body-font);
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 992px) {
+            .article-layout {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            .article-sidebar {
+                position: static;
+                top: auto;
+            }
+            .article-title { font-size: 2.25rem; }
+        }
+        @media (max-width: 768px) {
+            .article-title { font-size: 1.8rem; }
+            .article-meta { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+            .article-body { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="article-layout">
+            <main class="article-main">
+                <article>
+                    <header class="article-header">
+                        <span class="article-category">Liputan Khusus</span>
+                        <h1 class="article-title">Pentas Seni Tahunan Sukses Digelar, Meriah dan Penuh Talenta</h1>
+                        <div class="article-meta">
+                            <div class="meta-item">
+                                <box-icon name='user-circle' size='sm'></box-icon>
+                                <span>Oleh Tim Jurnalistik OSIS</span>
+                            </div>
+                            <div class="meta-item">
+                                <box-icon name='calendar' size='sm'></box-icon>
+                                <span>28 Agustus 2025</span>
+                            </div>
+                            <div class="meta-item">
+                                <box-icon name='time-five' size='sm'></box-icon>
+                                <span>5 menit baca</span>
+                            </div>
+                        </div>
+                    </header>
+
+                    <figure class="article-image">
+                        <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=1740&auto=format&fit=crop" alt="Suasana Pentas Seni">
+                        <figcaption>Penampilan salah satu band di panggung utama Pentas Seni 2025.</figcaption>
+                    </figure>
+
+                    <div class="article-body">
+                        <p>Acara puncak yang telah lama dinantikan oleh seluruh warga sekolah, Pentas Seni (Pensi) tahunan, akhirnya sukses digelar pada Sabtu malam. Mengusung tema "Harmoni Nusantara", acara ini berhasil menyuguhkan pertunjukan yang memukau, meriah, dan penuh dengan talenta-talenta terbaik dari siswa-siswi sekolah kita.</p>
+                        <p>Panggung utama yang didirikan di lapangan sekolah menjadi saksi bisu dari beragam penampilan, mulai dari tari tradisional, musikalisasi puisi, pertunjukan band, hingga drama komedi yang mengocok perut. Antusiasme penonton terlihat jelas sejak gerbang dibuka, di mana ribuan siswa, guru, dan bahkan alumni turut hadir memeriahkan acara.</p>
+                        
+                        <h3>Kolaborasi Lintas Ekstrakurikuler</h3>
+                        <p>Salah satu yang menjadi sorotan utama tahun ini adalah adanya berbagai penampilan kolaborasi antar ekstrakurikuler. Penampilan teater yang diiringi oleh alunan musik dari ekskul musik tradisional menjadi salah satu momen paling magis malam itu. Ini menunjukkan semangat persatuan dan kreativitas yang tinggi di antara para siswa.</p>
+
+                        <blockquote>"Kami ingin menunjukkan bahwa seni itu bisa menyatukan perbedaan. Dengan kolaborasi, kami belajar banyak hal, tidak hanya soal teknis panggung, tapi juga tentang kerja sama dan saling menghargai," ujar Budi, ketua pelaksana Pensi.</blockquote>
+                        
+                        <p>Selain panggung utama, area sekitar juga diramaikan dengan berbagai stan bazar yang dikelola oleh setiap kelas. Beraneka ragam makanan, minuman, dan kerajinan tangan kreatif menjadi daya tarik tersendiri bagi para pengunjung. Keuntungan dari penjualan di bazar ini akan dialokasikan untuk kegiatan sosial yang akan diadakan OSIS pada semester berikutnya.</p>
+                    </div>
+                </article>
+
+                <section class="comment-section">
+                    <h2 class="section-title">Tinggalkan Komentar</h2>
+                    
+                    <form id="comment-form" class="comment-form">
+                        <div class="form-group">
+                            <input type="text" id="comment-name" placeholder="Nama Anda" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="comment-text" placeholder="Tulis komentar Anda di sini..." required></textarea>
+                        </div>
+                        <button type="submit" class="submit-btn">Kirim Komentar</button>
+                    </form>
+
+                    <div class="comment-list" id="comment-list">
+                        <!-- Komentar akan ditambahkan oleh JavaScript -->
+                        <div class="comment-item">
+                            <div class="comment-avatar">
+                                <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="Avatar">
+                            </div>
+                            <div class="comment-content">
+                                <div>
+                                    <span class="comment-author">Siti Aminah</span>
+                                    <span class="comment-date">28 Agu 2025, 20:15</span>
+                                </div>
+                                <p class="comment-text">Acaranya keren banget! Salut untuk panitia OSIS yang sudah bekerja keras. Tahun depan harus lebih meriah lagi!</p>
+                            </div>
+                        </div>
+                        <div class="comment-item">
+                            <div class="comment-avatar">
+                                <img src="https://i.pravatar.cc/150?u=a042581f4e29026704e" alt="Avatar">
+                            </div>
+                            <div class="comment-content">
+                                <div>
+                                    <span class="comment-author">Rian Hidayat</span>
+                                    <span class="comment-date">29 Agu 2025, 09:30</span>
+                                </div>
+                                <p class="comment-text">Terima kasih sudah meliput acara ini. Penampilan band kelasku jadi makin berkesan. Sukses terus OSIS!</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <aside class="article-sidebar">
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Baca Juga</h3>
+                    <div class="related-posts">
+                        <a href="#">
+                            <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1632&auto=format&fit=crop" alt="Artikel Terkait">
+                            <h4>Pendaftaran Lomba 17 Agustus Resmi Dibuka!</h4>
+                        </a>
+                        <a href="#">
+                            <img src="https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=1674&auto=format&fit=crop" alt="Artikel Terkait">
+                            <h4>Opini: Pentingnya Manajemen Waktu bagi Pelajar</h4>
+                        </a>
+                         <a href="#">
+                            <img src="https://images.unsplash.com/photo-1606092195730-42430a7c932a?q=80&w=1740&auto=format&fit=crop" alt="Artikel Terkait">
+                            <h4>Galeri Foto: Kegiatan Bakti Sosial OSIS</h4>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const commentForm = document.getElementById('comment-form');
+            const commentList = document.getElementById('comment-list');
+            const nameInput = document.getElementById('comment-name');
+            const textInput = document.getElementById('comment-text');
+
+            commentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const name = nameInput.value.trim();
+                const text = textInput.value.trim();
+
+                if (name === '' || text === '') {
+                    alert('Nama dan komentar tidak boleh kosong!');
+                    return;
+                }
+
+                // Buat elemen komentar baru
+                const newComment = document.createElement('div');
+                newComment.classList.add('comment-item');
+
+                const date = new Date();
+                const formattedDate = date.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + ', ' + date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+                // Gunakan placeholder avatar acak dari pravatar
+                const randomAvatarId = Math.random().toString(36).substring(7);
+                
+                newComment.innerHTML = `
+                    <div class="comment-avatar">
+                        <img src="https://i.pravatar.cc/150?u=${randomAvatarId}" alt="Avatar">
+                    </div>
+                    <div class="comment-content">
+                        <div>
+                            <span class="comment-author">${name}</span>
+                            <span class="comment-date">${formattedDate}</span>
+                        </div>
+                        <p class="comment-text">${text}</p>
+                    </div>
+                `;
+
+                // Tambahkan komentar baru ke awal daftar
+                commentList.prepend(newComment);
+
+                // Reset form
+                commentForm.reset();
+            });
+        });
+    </script>
+
+</body>
+</html> 

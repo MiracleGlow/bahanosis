@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Sosial OSIS</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f6fa;
+    }
+    .social-section {
+      padding: 50px 20px;
+      text-align: center;
+      background: #fff;
+    }
+    .social-section h2 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+      color: #222;
+    }
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .social-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+      overflow: hidden;
+      padding: 15px;
+    }
+    iframe, blockquote.instagram-media, blockquote.tiktok-embed {
+      width: 100% !important;
+      max-width: 100% !important;
+      border-radius: 12px;
+      margin: auto;
+    }
+    /* Biar embed Instagram nggak maksa ukuran fixed */
+    .instagram-media {
+      min-width: unset !important;
+      max-width: 100% !important;
+    }
+  </style>
+</head>
+<body>
+
+<section class="social-section">
+  <h2>Ikuti Media Sosial OSIS</h2>
+  <div class="social-grid">
+
+    <!-- YouTube Channel -->
+    <div class="social-card">
+      <h3>YouTube Channel</h3>
+      <div class="g-ytsubscribe" 
+        data-channelid="UCLflO-gXvO-0RnQy0P2q01A" 
+        data-layout="full" 
+        data-count="default"></div>
+      <iframe src="https://www.youtube.com/embed/NF-DrV5czuc" 
+        title="P5 Indomie X SMK BATIK PERBAIK PURWOREJO" 
+        frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    <!-- Instagram Post -->
+    <div class="social-card">
+      <h3>Instagram</h3>
+      <blockquote class="instagram-media" 
+        data-instgrm-permalink="https://www.instagram.com/p/DMR_oakp4us/"
+        data-instgrm-version="14"></blockquote>
+    </div>
+
+    <!-- TikTok Profile -->
+    <div class="social-card">
+      <h3>TikTok Profile</h3>
+      <blockquote class="tiktok-embed" 
+        cite="https://www.tiktok.com/@osissmektikpwrj"
+        data-unique-id="osissmektikpwrj" 
+        data-embed-from="embed_page" 
+        data-embed-type="creator"
+        style="max-width: 100%;">
+        <section></section>
+      </blockquote>
+    </div>
+
+  </div>
+</section>
+
+<!-- Script -->
+<script src="https://apis.google.com/js/platform.js"></script>
+<script async src="https://www.instagram.com/embed.js"></script>
+<script async src="https://www.tiktok.com/embed.js"></script>
+
+</body>
+</html>

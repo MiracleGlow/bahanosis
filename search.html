@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSIS - Berita & Agenda</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    <style>
+        /* --- CSS Variables and General Setup (Unchanged) --- */
+        :root {
+            --primary-color: #0A2540;
+            --secondary-color: #F8F9FA;
+            --accent-color: #007BFF;
+            --text-color: #343A40;
+            --text-light: #6C757D;
+            --border-color: #DEE2E6;
+            --white-color: #FFFFFF;
+            --gold-color: #ffc107;
+            --header-font: 'Poppins', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --cat-pengumuman: #007BFF; --cat-artikel: #17A2B8; --cat-dokumentasi: #28A745;
+            --cat-highlight: #ca9803; --cat-info-sekolah: #6F42C1; --cat-liputan: #DC3545; --cat-profil: #FD7E14;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--body-font); font-size: 16px; line-height: 1.6; color: var(--text-color); background-color: var(--white-color); -webkit-font-smoothing: antialiased; }
+        .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s ease-in-out; }
+        h1, h2, h3, h4 { font-family: var(--header-font); font-weight: 700; line-height: 1.3; }
+
+        /* --- News Page Header (Unchanged) --- */
+        .news-header { position: relative; height: 40vh; min-height: 300px; max-height: 450px; margin-bottom: 3rem; display: flex; align-items: center; justify-content: center; color: var(--white-color); text-align: center; border-radius: 0 0 24px 24px; overflow: hidden; }
+        .news-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(0deg, rgba(10, 37, 64, 0.8) 0%, rgba(10, 37, 64, 0.3) 100%); z-index: 1; }
+        .news-header img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; animation: zoom-in 15s ease-out infinite alternate; }
+        @keyframes zoom-in { from { transform: scale(1); } to { transform: scale(1.1); } }
+        .header-content { position: relative; z-index: 2; padding: 0 20px; }
+        .header-content h1 { font-size: 3rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .header-content p { font-size: 1.125rem; max-width: 600px; margin: 0 auto; opacity: 0.9; }
+        
+        .main-content { padding: 3rem 0; }
+        .main-container { display: grid; grid-template-columns: 2.5fr 1fr; gap: 3rem; }
+        .news-feed { display: flex; flex-direction: column; gap: 2rem; }
+        
+        /* --- NEW: Search Bar & Updated Filter Controls --- */
+        .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .search-bar {
+            position: relative;
+        }
+        .search-bar box-icon {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+            fill: var(--text-light);
+            pointer-events: none;
+        }
+        #search-input {
+            width: 100%;
+            height: 50px;
+            padding: 0.75rem 1rem 0.75rem 3rem; /* Left padding for icon */
+            font-family: var(--body-font);
+            font-size: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        #search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+
+        .filter-controls { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .filter-btn { font-family: var(--body-font); font-size: 0.875rem; font-weight: 600; padding: 0.5rem 1rem; border: 1px solid var(--border-color); border-radius: 20px; background-color: var(--white-color); color: var(--text-light); cursor: pointer; transition: all 0.2s ease-in-out; }
+        .filter-btn:hover { background-color: var(--secondary-color); border-color: var(--accent-color); color: var(--accent-color); }
+        .filter-btn.active { background-color: var(--primary-color); border-color: var(--primary-color); color: var(--white-color); }
+
+        /* --- News Grid & Card Styles (Unchanged) --- */
+        .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+        .news-card { background-color: var(--white-color); border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease, height 0.4s ease, margin 0.4s ease, padding 0.4s ease, border 0.4s ease; }
+        .news-card.is-hidden { opacity: 0; transform: scale(0.9); height: 0; margin: 0; padding: 0; border: 0; pointer-events: none; }
+        .news-card:hover { transform: translateY(-8px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); }
+        .card-image-wrapper { position: relative; aspect-ratio: 16 / 10; }
+        .card-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        .card-category { position: absolute; top: 12px; left: 12px; padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 700; border-radius: 15px; color: var(--white-color); text-transform: uppercase; }
+        .card-category.pengumuman { background-color: var(--cat-pengumuman); } .card-category.artikel { background-color: var(--cat-artikel); } .card-category.dokumentasi { background-color: var(--cat-dokumentasi); } .card-category.highlight { background-color: var(--cat-highlight); color: var(--primary-color); } .card-category.info-sekolah { background-color: var(--cat-info-sekolah); } .card-category.liputan { background-color: var(--cat-liputan); } .card-category.profil { background-color: var(--cat-profil); }
+        .card-content { padding: 1.25rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-title { font-family: var(--header-font); font-size: 1.125rem; font-weight: 600; color: var(--primary-color); margin-bottom: 0.5rem; }
+        .card-excerpt { font-size: 0.9rem; color: var(--text-light); flex-grow: 1; margin-bottom: 1rem; }
+        .card-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--text-light); border-top: 1px solid var(--border-color); padding-top: 0.75rem; font-weight: 500; }
+        .card-footer .author { display: flex; align-items: center; gap: 0.5rem; } .card-footer .author box-icon { fill: var(--text-light); }
+
+        /* --- NEW: No Results Message --- */
+        .no-results-message {
+            display: none; /* Hidden by default */
+            text-align: center;
+            padding: 3rem 1rem;
+            background-color: var(--secondary-color);
+            border-radius: 12px;
+        }
+        .no-results-message h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        .no-results-message p {
+            color: var(--text-light);
+        }
+        
+        /* Sidebar & Responsive (Unchanged) */
+        .news-sidebar { display: flex; flex-direction: column; gap: 2.5rem; }
+        .sidebar-widget { background-color: var(--secondary-color); padding: 1.5rem; border-radius: 12px; }
+        .widget-title { font-size: 1.25rem; color: var(--primary-color); margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--accent-color); font-weight: 600; }
+        .announcement-list { display: flex; flex-direction: column; gap: 1rem; }
+        .announcement-item { display: flex; gap: 1rem; align-items: flex-start; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); } .announcement-item:last-child { border-bottom: none; } .announcement-item .icon { flex-shrink: 0; margin-top: 4px; } .announcement-item .icon box-icon { fill: var(--accent-color); } .announcement-details h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; } .announcement-details span { font-size: 0.8rem; color: var(--text-light); }
+        @media (max-width: 992px) { .main-container { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .header-content h1 { font-size: 2.25rem; } .header-content p { font-size: 1rem; } .news-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <header class="news-header">
+        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1740&auto=format&fit=crop" alt="Kegiatan OSIS">
+        <div class="header-content">
+            <h1>Berita & Agenda OSIS</h1>
+            <p>Ikuti informasi terbaru, kegiatan, dan prestasi dari OSIS sekolah kita.</p>
+        </div>
+    </header>
+
+    <main class="container main-container">
+        <div class="news-feed">
+            <div class="controls-wrapper">
+                <div class="search-bar">
+                    <box-icon name='search' color="var(--text-light)"></box-icon>
+                    <input type="search" id="search-input" placeholder="Cari artikel, pengumuman, atau liputan...">
+                </div>
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">Semua</button>
+                    <button class="filter-btn" data-filter="pengumuman">Pengumuman</button>
+                    <button class="filter-btn" data-filter="liputan">Liputan Khusus</button>
+                    <button class="filter-btn" data-filter="artikel">Artikel</button>
+                    <button class="filter-btn" data-filter="prestasi">Prestasi</button>
+                    <button class="filter-btn" data-filter="dokumentasi">Dokumentasi</button>
+                </div>
+            </div>
+
+            <div class="news-grid" id="news-grid">
+                <!-- Card 1: Liputan Khusus -->
+                <a href="#" class="news-card" data-category="liputan">
+                    <div class="card-image-wrapper"><img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?q=80&w=1740&auto=format&fit=crop" alt="Pentas Seni"><span class="card-category liputan">Liputan Khusus</span></div>
+                    <div class="card-content">
+                        <h3 class="card-title">Pentas Seni Tahunan Sukses Digelar, Meriah dan Penuh Talenta</h3>
+                        <p class="card-excerpt">Acara puncak yang dinantikan seluruh siswa akhirnya terlaksana dengan sukses, menampilkan berbagai bakat...</p>
+                        <div class="card-footer"><span class="author"><box-icon name='user-circle' size='xs'></box-icon> Tim Jurnalistik</span><span>2 hari yang lalu</span></div>
+                    </div>
+                </a>
+                <!-- Card 2: Pengumuman -->
+                <a href="#" class="news-card" data-category="pengumuman">
+                    <div class="card-image-wrapper"><img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1632&auto=format&fit=crop" alt="Rapat OSIS"><span class="card-category pengumuman">Pengumuman</span></div>
+                    <div class="card-content">
+                        <h3 class="card-title">Pendaftaran Lomba 17 Agustus Dibuka!</h3>
+                        <p class="card-excerpt">Segera daftarkan kelasmu untuk mengikuti berbagai lomba dalam rangka memeriahkan HUT RI ke-80.</p>
+                        <div class="card-footer"><span class="author"><box-icon name='user-circle' size='xs'></box-icon> Seksi Acara</span><span>5 hari yang lalu</span></div>
+                    </div>
+                </a>
+                <!-- Card 3: Prestasi -->
+                <a href="#" class="news-card" data-category="prestasi">
+                    <div class="card-image-wrapper"><img src="https://images.unsplash.com/photo-1579532582937-16c141df3082?q=80&w=1740&auto=format&fit=crop" alt="Olimpiade"><span class="card-category highlight" style="background-color: var(--gold-color);">Prestasi</span></div>
+                    <div class="card-content">
+                        <h3 class="card-title">Tim Robotik Sekolah Raih Juara 1 Tingkat Nasional</h3>
+                        <p class="card-excerpt">Sebuah kebanggaan! Tim robotik sekolah kita berhasil membawa pulang medali emas dalam kompetisi nasional.</p>
+                        <div class="card-footer"><span class="author"><box-icon name='user-circle' size='xs'></box-icon> Humas Sekolah</span><span>1 minggu yang lalu</span></div>
+                    </div>
+                </a>
+                <!-- Card 4: Artikel -->
+                <a href="#" class="news-card" data-category="artikel">
+                    <div class="card-image-wrapper"><img src="https://images.unsplash.com/photo-1491841550275-ad7854e35ca6?q=80&w=1674&auto=format&fit=crop" alt="Artikel"><span class="card-category artikel">Artikel & Opini</span></div>
+                    <div class="card-content">
+                        <h3 class="card-title">Opini: Pentingnya Manajemen Waktu bagi Pelajar</h3>
+                        <p class="card-excerpt">Bagaimana cara menyeimbangkan antara kegiatan akademik, organisasi, dan waktu pribadi? Simak tipsnya.</p>
+                        <div class="card-footer"><span class="author"><box-icon name='user-circle' size='xs'></box-icon> Ketua OSIS</span><span>1 minggu yang lalu</span></div>
+                    </div>
+                </a>
+                <!-- Card 5: Dokumentasi -->
+                <a href="#" class="news-card" data-category="dokumentasi">
+                    <div class="card-image-wrapper"><img src="https://images.unsplash.com/photo-1606092195730-42430a7c932a?q=80&w=1740&auto=format&fit=crop" alt="Kerja Bakti"><span class="card-category dokumentasi">Dokumentasi</span></div>
+                    <div class="card-content">
+                        <h3 class="card-title">Galeri Foto: Kegiatan Bakti Sosial di Lingkungan Sekolah</h3>
+                        <p class="card-excerpt">Lihat momen-momen kebersamaan saat kita membersihkan dan menata lingkungan sekolah bersama.</p>
+                        <div class="card-footer"><span class="author"><box-icon name='user-circle' size='xs'></box-icon> Seksi Dokumentasi</span><span>2 minggu yang lalu</span></div>
+                    </div>
+                </a>
+                <!-- Card 6: Info Sekolah -->
+                <a href="#" class="news-card" data-category="info-sekolah">
+                    <div class="card-image-wrapper"><img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=1740&auto=format&fit=crop" alt="Jadwal Ujian"><span class="card-category info-sekolah">Info Sekolah</span></div>
+                    <div class="card-content">
+                        <h3 class="card-title">Jadwal Ujian Akhir Semester Ganjil Tahun Ajaran 2025/2026</h3>
+                        <p class="card-excerpt">Berikut adalah jadwal resmi pelaksanaan Ujian Akhir Semester (UAS) untuk seluruh tingkatan kelas.</p>
+                        <div class="card-footer"><span class="author"><box-icon name='user-circle' size='xs'></box-icon> Kurikulum</span><span>3 minggu yang lalu</span></div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="no-results-message" id="no-results-message">
+                <h3>Tidak Ditemukan</h3>
+                <p>Maaf, tidak ada konten yang cocok dengan pencarian atau filter Anda.</p>
+            </div>
+
+        </div>
+
+        <aside class="news-sidebar">
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Pengumuman Penting</h3>
+                <div class="announcement-list">
+                    <a href="#" class="announcement-item"><div class="icon"><box-icon name='megaphone'></box-icon></div><div class="announcement-details"><h4>Rapat Pleno Persiapan LDK</h4><span>Besok, 15.00 WIB di Ruang OSIS</span></div></a>
+                    <a href="#" class="announcement-item"><div class="icon"><box-icon name='calendar-edit'></box-icon></div><div class="announcement-details"><h4>Batas Akhir Pengumpulan Proposal Class Meeting</h4><span>Jumat, 30 Agu 2025</span></div></a>
+                    <a href="#" class="announcement-item"><div class="icon"><box-icon name='user-check'></box-icon></div><div class="announcement-details"><h4>Open Recruitment Panitia Pensi</h4><span>Info lebih lanjut di mading</span></div></a>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const newsCards = document.querySelectorAll('.news-card');
+            const noResultsMessage = document.getElementById('no-results-message');
+
+            function filterContent() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                let visibleCards = 0;
+
+                newsCards.forEach(card => {
+                    const cardCategory = card.getAttribute('data-category');
+                    const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
+                    const cardExcerpt = card.querySelector('.card-excerpt').textContent.toLowerCase();
+                    
+                    const categoryMatch = activeFilter === 'all' || cardCategory === activeFilter;
+                    const searchMatch = cardTitle.includes(searchTerm) || cardExcerpt.includes(searchTerm);
+
+                    if (categoryMatch && searchMatch) {
+                        card.classList.remove('is-hidden');
+                        visibleCards++;
+                    } else {
+                        card.classList.add('is-hidden');
+                    }
+                });
+
+                if (visibleCards === 0) {
+                    noResultsMessage.style.display = 'block';
+                } else {
+                    noResultsMessage.style.display = 'none';
+                }
+            }
+
+            searchInput.addEventListener('input', filterContent);
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    filterContent();
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

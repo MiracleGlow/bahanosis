@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komponen Header Canggih & Responsif - Final</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Boxicons -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    <!-- Link ke File CSS -->
+    <link rel="stylesheet" href="static/css/main.css">
+</head>
+<body>
+    <!-- (Isi HTML dan JavaScript tetap sama persis seperti sebelumnya) -->
+    
+    <!-- === KODE HEADER === -->
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon-wrapper"><div class="logo-icon"></div></div>
+                <div class="logo-text">
+                    <strong>OSIS SMK BATIK PERBAIK</strong>
+                    <span>OFFICIAL WEBSITE</span>
+                </div>
+            </a>
+            
+            <nav class="main-nav">
+                <!-- Menu Grid Utama -->
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#" class="nav-link active">
+                        <box-icon name='home-alt' size="md"></box-icon>
+                        <span class="icon-text">Home</span>
+                    </a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            <box-icon name='info-circle' size="md"></box-icon>
+                            <span class="icon-text">About</span>
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Sejarah</a></li>
+                            <li><a href="#">Logo OSIS</a></li>
+                            <li><a href="#">Visi & Misi</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            <box-icon name='sitemap' size="md"></box-icon>
+                            <span class="icon-text">Struktur</span>
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Inti OSIS</a></li>
+                            <li><a href="#">Bidang 1</a></li>
+                            <li><a href="#">Bidang 2</a></li>
+                            <li><a href="#">Bidang 3</a></li>
+                            <li><a href="#">Bidang 4 & 5</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item"><a href="#" class="nav-link">
+                        <box-icon name='calendar-star' size="md"></box-icon>
+                        <span class="icon-text">Program & Event</span>
+                    </a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            <box-icon name='news' size="md"></box-icon>
+                            <span class="icon-text">Jurnalistik</span>
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">News & Events</a></li>
+                            <li><a href="#">Gallery Foto</a></li>
+                            <li><a href="#">Video Dokumentasi</a></li>
+                            <li><a href="#">Majalah Dinding</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item"><a href="#" class="nav-link">
+                        <box-icon name='phone' size="md"></box-icon>
+                        <span class="icon-text">Kontak</span>
+                    </a></li>
+                </ul>
+
+                <!-- Kontainer Khusus untuk Submenu Mobile -->
+                <div class="mobile-submenu-container">
+                    <div class="submenu-header">
+                        <button class="submenu-back-button" aria-label="Kembali ke menu utama">
+                            <box-icon name='arrow-back' size="md"></box-icon>
+                        </button>
+                        <h3 class="submenu-title"></h3>
+                    </div>
+                    <ul class="submenu-list">
+                        <!-- Konten submenu akan diisi oleh JavaScript -->
+                    </ul>
+                </div>
+            </nav>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <box-icon name='menu' class="icon-menu" size="md"></box-icon>
+                <box-icon name='x' class="icon-close" size="md"></box-icon>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <h1>Konten Halaman</h1>
+        <p>Ini adalah area utama halaman.</p>
+
+    </main>
+
+    <!-- ================== FOOTER ================== -->
+<footer class="site-footer">
+  <div class="container footer-container">
+    
+    <!-- Kiri: Logo + Nama Sekolah -->
+    <div class="footer-logo">
+      <div class="footer-logo-icon-wrapper">
+        <div class="footer-logo-icon"></div>
+      </div>
+      <div class="footer-logo-text">
+        <strong>OSIS SMK Batik</strong>
+        <span>Perbaik Purworejo</span>
+      </div>
+    </div>
+
+    <!-- Tengah: Link Cepat -->
+    <div class="footer-links">
+      <h4>Link Cepat</h4>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Struktur</a></li>
+        <li><a href="#">Jurnalistik</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Kanan: Sosial Media -->
+    <div class="footer-social">
+      <h4>Sosial Media</h4>
+      <div class="social-icons">
+        <a href="#" target="_blank"><box-icon type='logo' name='instagram'></box-icon></a>
+        <a href="#" target="_blank"><box-icon type='logo' name='youtube'></box-icon></a>
+        <a href="#" target="_blank"><box-icon type='logo' name='tiktok'></box-icon></a>
+        <a href="#" target="_blank"><box-icon name='whatsapp' type='logo'></box-icon></a>
+        <a href="mailto:osis@example.com"><box-icon name='envelope'></box-icon></a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bawah: Copyright -->
+  <div class="footer-bottom">
+    <p>Copyright &copy; <span id="year"></span> – OSIS SMK Batik Perbaik Purworejo</p>
+  </div>
+</footer>
+
+<script>
+  // otomatis update tahun
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+    
+    <script src="static/js/navbar.js"></script>
+</body>
+</html>

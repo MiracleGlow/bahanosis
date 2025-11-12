@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komponen Header Canggih & Responsif</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Boxicons -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+
+    <!-- Link ke File CSS -->
+    <style>
+        /* --- CSS Variables and General Setup --- */
+        :root {
+            --primary-color: #0A2540;
+            --secondary-color: #F8F9FA;
+            --accent-color: #007BFF;
+            --text-color: #343A40;
+            --text-light: #6C757D;
+            --border-color: #DEE2E6;
+            --white-color: #FFFFFF;
+            --header-font: 'Poppins', sans-serif;
+            --body-font: 'Inter', sans-serif;
+            --header-height: 81px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--body-font);
+            color: var(--text-color);
+            background-color: var(--white-color);
+            padding-top: var(--header-height);
+            overflow-x: hidden;
+        }
+        a { text-decoration: none; color: inherit; transition: color 0.2s ease-in-out; }
+        .container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 40px; }
+
+        /* --- Header & Navigation Styles --- */
+        .site-header {
+            background-color: var(--white-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            height: var(--header-height);
+        }
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon-wrapper { width: 48px; height: 48px; border: 2px solid var(--primary-color); border-radius: 50%; display: grid; place-items: center; }
+        .logo-icon { width: 32px; height: 32px; background-color: var(--primary-color); border-radius: 50%; }
+        .logo-text strong { font-family: var(--header-font); font-weight: 600; font-size: 1rem; color: var(--primary-color); display: block; }
+        .logo-text span { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* --- Desktop Navigation --- */
+        .nav-list { display: flex; list-style: none; gap: 2rem; }
+        .nav-link { font-family: var(--header-font); font-weight: 600; font-size: 0.9rem; text-transform: uppercase; color: var(--primary-color); padding: 0.5rem 0; position: relative; display: flex; align-items: center; gap: 4px; }
+        .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--accent-color); transform: scaleX(0); transform-origin: right; transition: transform 0.3s ease-in-out; }
+        .nav-link:hover::after, .nav-link.active::after { transform: scaleX(1); transform-origin: left; }
+        .nav-link:hover, .nav-link.active { color: var(--accent-color); }
+        .nav-link .icon-text { display: none; } /* Sembunyikan span di desktop */
+        .dropdown { position: relative; }
+        .dropdown-menu { display: none; position: absolute; top: 100%; left: 0; background-color: var(--white-color); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); list-style: none; padding: 0.5rem 0; min-width: 180px; opacity: 0; transform: translateY(10px); transition: opacity 0.2s ease, transform 0.2s ease; }
+        .dropdown:hover .dropdown-menu { display: block; opacity: 1; transform: translateY(0); }
+        .dropdown-menu li a { display: block; padding: 0.75rem 1.5rem; font-size: 0.9rem; font-family: var(--body-font); text-transform: none; font-weight: 400; }
+        .dropdown-menu li a:hover { background-color: var(--secondary-color); }
+
+        .mobile-nav-toggle { display: none; background: none; border: none; cursor: pointer; z-index: 1001; }
+        .mobile-nav-toggle .icon-close { display: none; }
+        .mobile-submenu-container { display: none; } /* Sembunyikan kontainer submenu di desktop */
+
+        /* --- Responsive Styles --- */
+        @media (max-width: 768px) {
+            .container { padding: 0 20px; }
+            .nav-link { flex-direction: column; text-transform: none; } /* Ubah flex-direction dan text-transform untuk mobile */
+            .nav-link .icon-text { display: block; } /* Tampilkan span di mobile */
+            .nav-link > box-icon[name='chevron-down'] { display: none; } /* Sembunyikan panah dropdown di grid */
+
+            .main-nav {
+                display: flex; /* Ubah agar transisi berfungsi */
+                position: fixed;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background-color: rgba(248, 249, 250, 0.95);
+                backdrop-filter: blur(8px);
+                align-items: center; justify-content: center;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+                opacity: 0; visibility: hidden;
+                overflow: hidden; /* Mencegah konten keluar dari viewport */
+            }
+            .main-nav.active { opacity: 1; visibility: visible; }
+
+            .nav-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                width: 90%; max-width: 450px;
+                text-align: center;
+                list-style: none;
+                transition: transform 0.4s ease, opacity 0.3s ease;
+            }
+            .nav-item { width: 100%; }
+            .nav-link {
+                background-color: var(--white-color);
+                border: 1px solid var(--border-color);
+                border-radius: 12px;
+                padding: 1rem;
+                font-size: 0.9rem; font-weight: 600;
+                aspect-ratio: 1 / 1;
+                justify-content: center;
+                gap: 8px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+            .nav-link:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+            .nav-link::after { display: none; }
+            .dropdown-menu { display: none !important; } /* Selalu sembunyikan dropdown-menu asli di mobile */
+
+            /* KONTENER SUBMENU KHUSUS */
+            .mobile-submenu-container {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                width: 90%; max-width: 450px;
+                height: auto;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: transform 0.4s ease, opacity 0.3s ease;
+                pointer-events: none;
+            }
+            .submenu-header { display: flex; align-items: center; margin-bottom: 1rem; }
+            .submenu-back-button { background: none; border: none; cursor: pointer; display: flex; align-items: center; padding: 0.5rem; margin-right: 0.5rem; }
+            .submenu-title { font-size: 1.25rem; font-family: var(--header-font); color: var(--primary-color); }
+            .submenu-list { list-style: none; }
+            .submenu-list li a {
+                display: block;
+                padding: 0.8rem 1rem;
+                background-color: var(--white-color);
+                border: 1px solid var(--border-color);
+                border-radius: 8px;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                transition: background-color 0.2s ease;
+            }
+            .submenu-list li a:hover { background-color: var(--secondary-color); color: var(--accent-color); }
+
+            /* State saat submenu aktif */
+            .main-nav.submenu-active .nav-list {
+                transform: translateX(-100%);
+                opacity: 0;
+                pointer-events: none;
+            }
+            .main-nav.submenu-active .mobile-submenu-container {
+                transform: translateX(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+            
+            .mobile-nav-toggle { display: block; }
+            body.nav-open .mobile-nav-toggle .icon-menu { display: none; }
+            body.nav-open .mobile-nav-toggle .icon-close { display: block; }
+            body.nav-open { overflow: hidden; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon-wrapper"><div class="logo-icon"></div></div>
+                <div class="logo-text">
+                    <strong>OSIS SMK BATIK PERBAIK</strong>
+                    <span>OFFICIAL WEBSITE</span>
+                </div>
+            </a>
+            
+            <nav class="main-nav">
+                <!-- Menu Grid Utama -->
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#" class="nav-link active">
+                        <box-icon name='home-alt' size="md"></box-icon>
+                        <span class="icon-text">Home</span>
+                    </a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            <box-icon name='info-circle' size="md"></box-icon>
+                            <span class="icon-text">About</span>
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Sejarah</a></li>
+                            <li><a href="#">Logo OSIS</a></li>
+                            <li><a href="#">Visi & Misi</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            <box-icon name='sitemap' size="md"></box-icon>
+                            <span class="icon-text">Struktur</span>
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Inti OSIS</a></li>
+                            <li><a href="#">Bidang 1</a></li>
+                            <li><a href="#">Bidang 2</a></li>
+                            <li><a href="#">Bidang 3</a></li>
+                            <li><a href="#">Bidang 4 & 5</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item"><a href="#" class="nav-link">
+                        <box-icon name='calendar-star' size="md"></box-icon>
+                        <span class="icon-text">Program & Event</span>
+                    </a></li>
+                    
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link">
+                            <box-icon name='news' size="md"></box-icon>
+                            <span class="icon-text">Jurnalistik</span>
+                            <box-icon name='chevron-down' color="currentColor" size="20px"></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">News & Events</a></li>
+                            <li><a href="#">Gallery Foto</a></li>
+                            <li><a href="#">Video Dokumentasi</a></li>
+                            <li><a href="#">Majalah Dinding</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item"><a href="#" class="nav-link">
+                        <box-icon name='phone' size="md"></box-icon>
+                        <span class="icon-text">Kontak</span>
+                    </a></li>
+                </ul>
+
+                <!-- Kontainer Khusus untuk Submenu Mobile -->
+                <div class="mobile-submenu-container">
+                    <div class="submenu-header">
+                        <button class="submenu-back-button" aria-label="Kembali ke menu utama">
+                            <box-icon name='arrow-back' size="md"></box-icon>
+                        </button>
+                        <h3 class="submenu-title"></h3>
+                    </div>
+                    <ul class="submenu-list">
+                        <!-- Konten submenu akan diisi oleh JavaScript -->
+                    </ul>
+                </div>
+            </nav>
+            
+            <button class="mobile-nav-toggle" aria-label="Toggle navigation">
+                <box-icon name='menu' class="icon-menu" size="md"></box-icon>
+                <box-icon name='x' class="icon-close" size="md"></box-icon>
+            </button>
+        </div>
+    </header>
+
+    <main style="padding: 2rem 1rem; min-height: 200vh; background-color: #f1f1f1;">
+        <h1>Konten Halaman</h1>
+        <p>Header sudah diperbaiki dan disempurnakan.</p>
+        <p>Coba buka di tampilan mobile (di bawah 768px) untuk melihat menu grid dengan ikon dan kontainer submenu yang canggih.</p>
+    </main>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileNavToggle = document.querySelector('.mobile-nav-toggle');
+            const mainNav = document.querySelector('.main-nav');
+            const dropdownLinks = document.querySelectorAll('.main-nav .dropdown > a');
+            
+            // Elemen untuk submenu mobile
+            const submenuContainer = document.querySelector('.mobile-submenu-container');
+            const submenuTitle = document.querySelector('.submenu-title');
+            const submenuList = document.querySelector('.submenu-list');
+            const backButton = document.querySelector('.submenu-back-button');
+
+            // 1. Toggle menu mobile utama
+            mobileNavToggle.addEventListener('click', () => {
+                const isNavOpen = mainNav.classList.contains('active');
+                if (isNavOpen) {
+                    // Jika menu ditutup, reset juga tampilan submenu
+                    mainNav.classList.remove('submenu-active');
+                }
+                mainNav.classList.toggle('active');
+                document.body.classList.toggle('nav-open');
+            });
+
+            // 2. Logika untuk menampilkan kontainer submenu di mobile
+            dropdownLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault(); // Mencegah navigasi
+
+                        const parentDropdown = link.parentElement;
+                        const title = link.querySelector('.icon-text').textContent;
+                        const sourceList = parentDropdown.querySelector('.dropdown-menu');
+
+                        // Isi kontainer submenu
+                        submenuTitle.textContent = title;
+                        submenuList.innerHTML = ''; // Kosongkan daftar sebelumnya
+                        
+                        sourceList.querySelectorAll('li a').forEach(item => {
+                            const newLi = document.createElement('li');
+                            const newA = document.createElement('a');
+                            newA.href = item.href;
+                            newA.textContent = item.textContent;
+                            newLi.appendChild(newA);
+                            submenuList.appendChild(newLi);
+                        });
+
+                        // Tampilkan kontainer submenu dengan animasi
+                        mainNav.classList.add('submenu-active');
+                    }
+                });
+            });
+
+            // 3. Logika untuk tombol "Kembali"
+            backButton.addEventListener('click', () => {
+                mainNav.classList.remove('submenu-active');
+            });
+        });
+    </script>
+</body>
+</html>
